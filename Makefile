@@ -1,3 +1,5 @@
+run: poker
+	./poker
 poker: poker.o
 	gcc poker.o -o poker
 poker.o: poker.c
