@@ -1,4 +1,6 @@
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define NUM_RANKS 13
 #define NUM_SUITS 4
