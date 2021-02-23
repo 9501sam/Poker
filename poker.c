@@ -68,7 +68,7 @@ void read_cards(void)
 
     suit_ch = getchar();
     switch (suit_ch) {
-      case 'c':  case 'C':  suit = 0; break;
+      case 'c':  case 'C':  suit = 0;  break;
       case 'd':  case 'D':  suit = 1;  break;
       case 'h':  case 'H':  suit = 2;  break;
       case 's':  case 'S':  suit = 3;  break;
@@ -93,8 +93,31 @@ void read_cards(void)
 
 void analyze_hand(void)
 {
+  straight = false;
+  flush = false;
+  four = false;
+  thre = false;
+  pairs = 0;
+
+  //**check for flush**//
+  
+  //**check for straight**//
+
+  //**check for 4-of-a-kind, 3-of-a-kind and pairs**//
 }
 
 void print_result(void)
 {
+  if(straight && flush) printf("Straight flush");
+  else if(four)         printf("four-of-a-kind");
+  else if(pairs == 1 && 
+          three)        printf("full house");
+  else if(flush)        printf("flush");
+  else if(straight)     printf("straight");
+  else if(three)        printf("three-of-a-kind");
+  else if(pairs == 2)   printf("two pairs");
+  else if(pairs == 1)   printf("pair");
+  else                  printf("hight card");
+
+  printf("\n\n");
 }
