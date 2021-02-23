@@ -28,7 +28,7 @@ int main(void)
 void read_cards(void)
 {
   bool card_exists[NUM_RANKS][NUM_SUITS];
-  char ch rank_ch, suit_ch;
+  char ch, rank_ch, suit_ch;
   int rank, suit;
   bool bad_card;
   int cards_read = 0;
@@ -93,17 +93,35 @@ void read_cards(void)
 
 void analyze_hand(void)
 {
+  int num_consec = 0;
+  int rank, suit;
   straight = false;
   flush = false;
   four = false;
-  thre = false;
+  three = false;
   pairs = 0;
 
   //**check for flush**//
+  for (suit = 0; suit < NUM_SUITS; suit++)
+    if(num_in_suit[suit] == NUM_CARDS)
+      flush = true;
   
   //**check for straight**//
+  rank = 0;
+  while (num_in_rank[rank] == 0) rank++;
+  for (; rank < NUM_RANKS && num_in_rank[rank] > 0; rank++)
+    num_consec++;
+  if(num_consec == NUM_CARDS){
+    straight = true;
+    return;
+  }
 
   //**check for 4-of-a-kind, 3-of-a-kind and pairs**//
+  for (rank = 0; rank < NUM_RANKS; rank++) {
+    if (num_in_rank[rank] == 4) four = true;
+    if (num_in_rank[rank] == 4) three = true;
+    if (num_in_rank[rank] == 4) pairs++;
+  }
 }
 
 void print_result(void)
