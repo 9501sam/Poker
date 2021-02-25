@@ -8,19 +8,19 @@
 
 int num_in_rank[NUM_RANKS];
 int num_in_suit[NUM_SUITS];
-bool straight, flush, four, three;
-int pairs;
 
 void read_cards(void);
-void analyze_hand(void);
-void print_result(void);
+void analyze_hand(bool*, bool*, bool*, bool*, int*);
+void print_result(bool* straight, bool* flush, bool* four, bool* three, int* pairs);
 
 int main(void)
 {
+  bool straight, flush, four, three;
+  int pairs;
   for (;;) {
     read_cards();
-    analyze_hand();
-    print_result();
+    analyze_hand(&straight, &flush, &four, &three, &pairs);
+    print_result(&straight, &flush, &four, &three, &pairs);
   }
   return 0;
 }
@@ -91,20 +91,20 @@ void read_cards(void)
   }
 }
 
-void analyze_hand(void)
+void analyze_hand(bool* straight, bool* flush, bool* four, bool* three, int* pairs)
 {
   int num_consec = 0;
   int rank, suit;
-  straight = false;
-  flush = false;
-  four = false;
-  three = false;
-  pairs = 0;
+  *straight = false;
+  *flush = false;
+  *four = false;
+  *three = false;
+  *pairs = 0;
 
   //**check for flush**//
   for (suit = 0; suit < NUM_SUITS; suit++)
     if(num_in_suit[suit] == NUM_CARDS)
-      flush = true;
+      *flush = true;
   
   //**check for straight**//
   rank = 0;
@@ -112,29 +112,29 @@ void analyze_hand(void)
   for (; rank < NUM_RANKS && num_in_rank[rank] > 0; rank++)
     num_consec++;
   if(num_consec == NUM_CARDS){
-    straight = true;
+    *straight = true;
     return;
   }
 
   //**check for 4-of-a-kind, 3-of-a-kind and pairs**//
   for (rank = 0; rank < NUM_RANKS; rank++) {
-    if (num_in_rank[rank] == 4) four = true;
-    if (num_in_rank[rank] == 4) three = true;
-    if (num_in_rank[rank] == 4) pairs++;
+    if (num_in_rank[rank] == 4) *four = true;
+    if (num_in_rank[rank] == 4) *three = true;
+    if (num_in_rank[rank] == 4) *pairs++;
   }
 }
 
-void print_result(void)
+void print_result(bool* straight, bool* flush, bool* four, bool* three, int* pairs)
 {
-  if(straight && flush) printf("Straight flush");
-  else if(four)         printf("four-of-a-kind");
-  else if(pairs == 1 && 
-          three)        printf("full house");
-  else if(flush)        printf("flush");
-  else if(straight)     printf("straight");
-  else if(three)        printf("three-of-a-kind");
-  else if(pairs == 2)   printf("two pairs");
-  else if(pairs == 1)   printf("pair");
+  if(*straight && *flush) printf("Straight flush");
+  else if(*four)         printf("four-of-a-kind");
+  else if(*pairs == 1 && 
+          *three)        printf("full house");
+  else if(*flush)        printf("flush");
+  else if(*straight)     printf("straight");
+  else if(*three)        printf("three-of-a-kind");
+  else if(*pairs == 2)   printf("two pairs");
+  else if(*pairs == 1)   printf("pair");
   else                  printf("hight card");
 
   printf("\n\n");
